@@ -25,8 +25,13 @@ jobs:
         with:
           fetch-depth: 0
 
-      - name: Show Xcode Version
+      - name: Select Xcode 16
         run: |
+          XCODE_APP=$(find /Applications -maxdepth 1 -name "Xcode_16*.app" | sort -V | tail -n 1)
+          if [ -n "$XCODE_APP" ]; then
+            echo "Selecting $XCODE_APP"
+            sudo xcode-select -s "$XCODE_APP/Contents/Developer"
+          fi
           xcodebuild -version
           swift --version
 
