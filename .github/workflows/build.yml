@@ -50,34 +50,39 @@ jobs:
 
       - name: Package Distributable Artifacts (DMG & ZIP)
         run: |
-          APP_PATH="./build/Build/Products/Release/FolderStudio.app"
+          ROOT_DIR="$(pwd)"
+          APP_PATH="$ROOT_DIR/build/Build/Products/Release/FolderStudio.app"
+          DIST_DIR="$ROOT_DIR/dist"
+          
           if [ ! -d "$APP_PATH" ]; then
             echo "Error: App bundle not found at $APP_PATH"
             exit 1
           fi
 
-          mkdir -p dist
+          mkdir -p "$DIST_DIR"
           
           # Create ZIP archive
-          cd ./build/Build/Products/Release
-          zip -r -y ../../../dist/Foldero-macOS.zip FolderStudio.app
-          cd ../../../
+          cd "$ROOT_DIR/build/Build/Products/Release"
+          zip -r -y "$DIST_DIR/Foldero-macOS.zip" FolderStudio.app
+          cd "$ROOT_DIR"
 
           # Create DMG
-          mkdir -p dmg_staging
-          cp -R "$APP_PATH" dmg_staging/
-          ln -s /Applications dmg_staging/Applications
+          DMG_STAGING="$ROOT_DIR/dmg_staging"
+          rm -rf "$DMG_STAGING"
+          mkdir -p "$DMG_STAGING"
+          cp -R "$APP_PATH" "$DMG_STAGING/"
+          ln -s /Applications "$DMG_STAGING/Applications"
           
           hdiutil create \
             -volname "Foldero" \
-            -srcfolder dmg_staging \
+            -srcfolder "$DMG_STAGING" \
             -ov \
             -format UDZO \
-            dist/Foldero-macOS.dmg
+            "$DIST_DIR/Foldero-macOS.dmg"
           
-          rm -rf dmg_staging
+          rm -rf "$DMG_STAGING"
           
-          ls -lh dist/
+          ls -lh "$DIST_DIR"
 
       - name: Upload Build Artifacts
         uses: actions/upload-artifact@v4
