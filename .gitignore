@@ -1,0 +1,26 @@
+# Xcode & Apple Builds
+build/
+DerivedData/
+*.xcuserstate
+project.xcworkspace/xcuserdata/
+xcuserdata/
+*.xcscmblueprint
+*.xccheckout
+
+# Distribution & Packaging
+dist/
+dmg_staging/
+*.dmg
+*.zip
+
+# macOS System Files
+.DS_Store
+.AppleDouble
+.LSOverride
+Icon
+._*
+
+# Temporary files
+*~
+*.swp
+*.lock
