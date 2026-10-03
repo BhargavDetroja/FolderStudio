@@ -25,9 +25,9 @@ xcodebuild \
   -configuration Release \
   -destination 'platform=macOS' \
   -derivedDataPath "$BUILD_DIR" \
-  CODE_SIGN_IDENTITY="" \
-  CODE_SIGNING_REQUIRED=NO \
-  CODE_SIGNING_ALLOWED=NO \
+  CODE_SIGN_STYLE="Manual" \
+  CODE_SIGN_IDENTITY="-" \
+  DEVELOPMENT_TEAM="" \
   clean build
 
 APP_PATH="$BUILD_DIR/Build/Products/Release/$APP_NAME.app"
